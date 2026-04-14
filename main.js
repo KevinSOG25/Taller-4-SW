@@ -12,8 +12,14 @@ function renderSeriesInTable(seriesList) {
             <td>${serie.seasons}</td>
             <td>${serie.description}</td>
             <td><a href="${serie.webpage}" target="_blank">Ver</a></td>
-            <td><img src="${serie.poster}" alt="${serie.name}" width="100"></td>
+            <td><img src="${serie.poster}" width="100"></td>
         `;
+        const celdas = tr.querySelectorAll('td');
+        celdas.forEach(td => {
+            td.addEventListener('click', () => {
+                mostrarDetalle(serie);
+            });
+        });
         tbody.appendChild(tr);
     }
 }
@@ -30,6 +36,23 @@ function mostrarPromedio(series) {
     if (promedioElement) {
         promedioElement.innerText = `Promedio temporadas: ${promedio.toFixed(2)}`;
     }
+}
+function mostrarDetalle(serie) {
+    const detail = document.getElementById('series-detail');
+    if (!detail)
+        return;
+    detail.innerHTML = `
+        <div class="card">
+            <img src="${serie.poster}" class="card-img-top" alt="${serie.name}">
+            <div class="card-body">
+                <h5 class="card-title">${serie.name}</h5>
+                <p class="card-text">${serie.description}</p>
+                <a href="${serie.webpage}" target="_blank" class="btn btn-primary">
+                    Ver más
+                </a>
+            </div>
+        </div>
+    `;
 }
 renderSeriesInTable(series);
 mostrarPromedio(series);
